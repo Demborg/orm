@@ -1,0 +1,29 @@
+#! /bin/python3
+
+import re
+from typing import Sequence
+from sys import argv
+
+def tokenize(line: str) -> Sequence[str]:
+    pattern = r"\"[^\"]*\"|\w+"
+    return re.findall(pattern, line)
+
+def evaluate(token: str) -> str:
+    return token[1:-1]
+
+def parse(line: str):
+    tokens = tokenize(line)
+    for i, token in enumerate(tokens):
+        if token == "skriv":
+            print(evaluate(tokens[i + 1]))
+
+def main():
+    if len(argv) == 1:
+        while True:
+            parse(input("> "))
+
+    for line in open(argv[1]):
+        parse(line)
+
+if __name__ == "__main__":
+    main()
