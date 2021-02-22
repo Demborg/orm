@@ -4,12 +4,19 @@ import re
 from typing import Sequence
 from sys import argv
 
+TOKENS = {
+    "string": "\"[^\"]*\"",
+    "symbol": "\w+",
+}
+
 def tokenize(line: str) -> Sequence[str]:
-    pattern = r"\"[^\"]*\"|\w+"
+    pattern = "|".join(TOKENS.values())
     return re.findall(pattern, line)
 
 def evaluate(token: str) -> str:
-    return token[1:-1]
+    if re.match(TOKENS["string"], token):
+        return token[1:-1]
+    raise NotImplemented()
 
 def parse(line: str):
     tokens = tokenize(line)
